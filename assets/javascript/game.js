@@ -1,15 +1,26 @@
 $(document).ready(function () {
 
   var magicNumber;
-  var winsCounter;           
-  var lossesCounter;     
-  var totalFromClicks;
-  var newCrystalValue = [];
-  var showTotalFromClicks = $("#currentTally");
+  var wins = 0;           
+  var losses = 0; 
+  var yourPick = 0;
+  var crystalValue = Math.floor(Math.random() * 12) +1 
+  var totalFromClicks = 0;
   var crystalImages = $("#section3");
   var crystals = ["diamond", "emerald", "ruby", "saphire"];
- 
- 	console.log(crystalImages);
+  var lockGame = false;
+ 	console.log(crystalValue);
+
+    function startGame () {
+               var totalFromClicks = 0;
+               createCrystalImages();
+               magicNumberGenerator();
+               $(".crystal-img").click(playGame);
+               $("#currentTally").text("Your current tally is:"+ (totalFromClicks));
+               $("#results").text("");
+    }
+              
+
 
 	 function magicNumberGenerator(){ //generate random number for the magic number
 	// x = 19, y = 120
@@ -19,58 +30,64 @@ $(document).ready(function () {
 	 }
 	 // create crystal buttons
   
+  
   	function createCrystalImages(){
   		 $(crystalImages).empty();
-  		//  add the crystal images and their attributes
+
+       //  add the crystal images and their attributes
   		//var img = $("<img/>") //document.createElement("img")
   		for (i=0; i< crystals.length; i++) {
-  			var img = $("<img/>");  // create image for every crystal
-  			img.attr("data-crystalValue", crystalNumberGenerator()); 
-  			//$("img").attr("id", crystals);
-  			console.log("here" + crystalValue);
-      	img.attr("src", "assets/images/crystal" + i +".jpg");
-        img.attr("id", crystals.toString);
-        
-  			crystalImages.append(img);
-       console.log(img);
+  			var img = $("<img class='crystal-img'>");  // create image for every crystal
+        var crystalValue = Math.floor(Math.random() * 12) +1 
+      
+  			img.attr("src", "assets/images/crystal" + i +".jpg");
+        img.attr("id", crystals[i]);  //$("img").attr("id", names of the crystals);
+        img.attr("data-crystalValue", crystalValue); //add the random number as crystalValue
+        crystalImages.append(img);
+        console.log(img);
+       console.log("here" + crystalValue);
+       var attValue = img.attr("data-crystalValue");
+       console.log(attValue);
 		  }
   	}
 
-	function crystalNumberGenerator(){  //generate random numbers for each crystal
-	// x = 1, y = 12
-		crystalValue = Math.floor(Math.random() * 12) + 1;
-	}
+    //assign a number
+
+	
 
 magicNumberGenerator ();
-crystalNumberGenerator();
 createCrystalImages();
 
-
-});
-
-$("#section3").click(function(){
+$(".crystal-img").click(playGame);
+                $("#currentTally").text("Your current tally: " + (totalFromClicks));
   
-  var CrystalValue = parseInt($(this).attr("crystalValue"));
-   console.log(crystalValue);
-    // $("#currentTally") === crystalValueNew
-    // if crystalValue != 0 {
-    // $("#currentTally") === magicNumber
-    // winsCounter + 1
-    //   else if {
-    //   $("#currentTally") >== magicNumber
-    //   lossesCounter + 1
-    //     else {
-    //     $("#currentTally") = ($("#currentTally") + crystalValue)
-    //     }
-    //   }
-  // }
-});  
-
-function startGame () {
-     totalFromClicks = 0;
-     showTotalFromClicks.html(totalFromClicks)
-     createCrystalImages()
-     magicNumber=0
- 
- startGame();
- };
+  
+// //check if the # added to the other numbers is equalto our magicNumber
+  function playGame() {
+     var crystalValue = parseInt($(this).attr("data-crystalValue")); 
+      
+     console.log("your pick: " + crystalValue);
+          totalFromClicks += crystalValue;
+        if (totalFromClicks < magicNumber){
+              //$("#results").text("Keep going");
+               
+              $("#currentTally").text("Your current tally: " + (totalFromClicks));
+              }
+           // If the numbers did not match. You also let them know
+          else if (totalFromClicks > magicNumber){
+            $("#results").text("You lose, sorry.");
+            ++losses
+            $("#losses").text(losses);
+            startGame();
+          }
+              else if (totalFromClicks === magicNumber) {
+            $("#results").text("You Win!");
+            ++wins;
+            $("#wins").text(wins);
+            startGame();
+        }
+              
+  }
+    
+             
+});

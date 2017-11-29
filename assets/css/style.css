@@ -43,7 +43,7 @@ body {
 	background-color: 	#CD853F;
 	height: 100px;
 	color: white;
-	padding: 30px;
+	padding: 20px;
 	font-size: 30px;
 		}
 
@@ -61,12 +61,23 @@ body {
 	height:150px;
 	width:150px;
 }
-#bottom {
+#results {
+	
 	margin:auto;
+	padding:20px;
+	width: 60%;
+	background-color: #CD853F;
+	color: white;
+	font: 30px;
+}
+
+#currentTally {
+	
+	margin:auto;
+	padding:20px;
 	width: 60%;
 	background-color: #8B4513;
-	height:150px;
-	color:white;
-	padding:10px;
+	color: white;
+	font: 30px;
 }
 /* general */
